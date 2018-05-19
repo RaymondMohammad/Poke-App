@@ -22,7 +22,7 @@ export class AppComponent implements OnInit{
 
   loadMore() {
     this.isLoading = true;
-    this.pokemonService.getPokemon(this.pokemon.length, 9)
+    this.pokemonService.getPokemon(this.pokemon.length, 36)
       .then( pokemon => {
         pokemon = pokemon.map(p => {
           p.imageLoaded = false;

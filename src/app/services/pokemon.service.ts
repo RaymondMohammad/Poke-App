@@ -17,6 +17,7 @@ export class PokemonService {
 
         return {
           name: item.name,
+          //sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other-sprites/official-artwork/' + id + '.png',
           sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + id + '.png',
           id
         };
