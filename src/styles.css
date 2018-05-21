@@ -1,3 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import '~bootstrap-material-design/dist/css/bootstrap-material-design.min.css';
+@font-face {
+  font-family: "Pokemon Puzzle Challenge GB";
+  src: url("./fonts/Pokemon_Puzzle_Challenge_GB.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}

@@ -8,3 +8,7 @@
   /* Opera 11-12.1 */
   border-image: url(http://www.iamdavidlee.com/FirstGame/gamefolder/images/talkBox.png) 30 stretch;
 }
+
+.font {
+  font-family: "Pokemon Puzzle Challenge GB", Times, serif;
+}

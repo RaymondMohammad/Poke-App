@@ -29,14 +29,19 @@ export class PokemonPageComponent implements OnInit {
       (params: any) => {
         this.id = params['id'];
         this.pokemonImg += this.id + '.png';
-        //this.getPokemon()
-        this.pokemon = this.cacheService.get(String(this.id), this.pokemonService.getPokemonById(this.id));
-        this.pokemon.subscribe(res => this.pokemonInfo = res);
+        this.getPokemon()
+
       });
 
   }
 
   getPokemon() {
+    this.isLoading = true;
+    this.pokemon = this.cacheService.get(String(this.id), this.pokemonService.getPokemonById(this.id));
+    this.pokemon.finally(() => this.isLoading = false).subscribe(res => this.pokemonInfo = res);
+  }
+
+  /* getPokemon() {
     this.isLoading = true;
     this.pokemonService.getPokemonById(this.id)
       .finally(() => this.isLoading = false)
@@ -50,5 +55,5 @@ export class PokemonPageComponent implements OnInit {
         },
         errors => this.errors = errors
       );
-  }
+  } */
 }
