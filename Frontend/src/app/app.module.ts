@@ -7,15 +7,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { PokemonPageComponent } from './pokemon-page/pokemon-page.component';
 import { PokemonListComponent } from './pokemon-list/pokemon-list.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { HomeComponent } from './home/home.component';
 
 import { PokemonService } from './services/pokemon.service';
 import { CacheService } from './services/cache.service';
-import { NavbarComponent } from './navbar/navbar.component';
-
 
 const appRoutes: Routes = [
   { path: 'pokemon/:id', component: PokemonPageComponent },
-  { path: '', component: PokemonListComponent }
+  { path: 'pokemon/list/all', component: PokemonListComponent },
+  { path: '', component: HomeComponent }
 ];
 
 @NgModule({
@@ -23,7 +24,8 @@ const appRoutes: Routes = [
     AppComponent,
     PokemonPageComponent,
     PokemonListComponent,
-    NavbarComponent
+    NavbarComponent,
+    HomeComponent
   ],
   imports: [
     HttpModule,
