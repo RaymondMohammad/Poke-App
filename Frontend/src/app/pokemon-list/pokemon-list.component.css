@@ -2,7 +2,7 @@
     font-family: "Pokemon Puzzle Challenge GB", Times, serif;
   }
 
-  .swing:hover
+  #cont:hover .swing
 {
         -webkit-animation: swing 1s ease;
         animation: swing 1s ease;
@@ -14,13 +14,13 @@
   {
       15%
       {
-          -webkit-transform: translateY(5px);
-          transform: translateY(5px);
+          -webkit-transform: translateY(4px);
+          transform: translateY(4px);
       }
       30%
       {
-          -webkit-transform: translateY(-5px);
-         transform: translateY(-5px);
+          -webkit-transform: translateY(-4px);
+         transform: translateY(-4px);
       } 
       50%
       {
@@ -47,13 +47,13 @@
   {
       15%
       {
-          -webkit-transform: translateY(5px);
-          transform: translateY(5px);
+          -webkit-transform: translateY(4px);
+          transform: translateY(4px);
       }
       30%
       {
-          -webkit-transform: translateY(-5px);
-          transform: translateY(-5px);
+          -webkit-transform: translateY(-4px);
+          transform: translateY(-4px);
       }
       50%
       {

@@ -8,3 +8,82 @@
   /* Opera 11-12.1 */
   border-image: url(http://www.iamdavidlee.com/FirstGame/gamefolder/images/talkBox.png) 30 stretch;
 }
+
+.font {
+  font-family: "Pokemon Puzzle Challenge GB", Times, serif;
+}
+
+.swing:hover
+{
+      -webkit-animation: swing 1s ease;
+      animation: swing 1s ease;
+      -webkit-animation-iteration-count: 1;
+      animation-iteration-count: 1;
+}
+
+@-webkit-keyframes swing
+{
+    15%
+    {
+        -webkit-transform: translateY(4px);
+        transform: translateY(4px);
+    }
+    30%
+    {
+        -webkit-transform: translateY(-4px);
+       transform: translateY(-4px);
+    } 
+    50%
+    {
+        -webkit-transform: translateY(3px);
+        transform: translateY(3px);
+    }
+    65%
+    {
+        -webkit-transform: translateY(-3px);
+        transform: translateY(-3px);
+    }
+    80%
+    {
+        -webkit-transform: translateY(2px);
+        transform: translateY(2px);
+    }
+    100%
+    {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+@keyframes swing
+{
+    15%
+    {
+        -webkit-transform: translateY(4px);
+        transform: translateY(4px);
+    }
+    30%
+    {
+        -webkit-transform: translateY(-4px);
+        transform: translateY(-4px);
+    }
+    50%
+    {
+        -webkit-transform: translateY(3px);
+        transform: translateY(3px);
+    }
+    65%
+    {
+        -webkit-transform: translateY(-3px);
+        transform: translateY(-3px);
+    }
+    80%
+    {
+        -webkit-transform: translateY(2px);
+        transform: translateY(2px);
+    }
+    100%
+    {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}

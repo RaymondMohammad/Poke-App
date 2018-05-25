@@ -8,7 +8,7 @@ import { pluck, share, shareReplay, tap } from 'rxjs/operators';
 
 @Injectable()
 export class PokemonService extends BaseService {
-  private baseUrl: string = 'https://pokeapi.co/api/v2/pokemon/';
+  private baseUrl: string = 'https://pokeapi.co/api/v2/';
   private cache$: Observable<Array<Pokemon>>;
   private cache2$: Observable<Array<Pokemon>>;
   private cacheInfo: Observable<PokemonInfo>;
@@ -22,7 +22,7 @@ export class PokemonService extends BaseService {
   }
 
   getAllPokemon(offset: number, limit: number): Observable<Pokemon[]> {
-    const url: string = this.baseUrl + '?offset=' + offset + '&limit=' + limit;
+    const url: string = this.baseUrl + 'pokemon/' + '?offset=' + offset + '&limit=' + limit;
     return this.http.get(url)
       .map(response => response.json().results)
       .map(items => items.map((item, idx) => {
@@ -30,7 +30,7 @@ export class PokemonService extends BaseService {
 
         return {
           name: item.name,
-          //sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other-sprites/official-artwork/' + id + '.png',
+          // sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other-sprites/official-artwork/' + id + '.png',
           sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + id + '.png',
           id
         };
@@ -50,8 +50,10 @@ export class PokemonService extends BaseService {
   } */
 
   getPokemonById(id: number): Observable<PokemonInfo> {
-    return this.http.get(this.baseUrl + id)
-      .map(response => response.json())
+    return Observable.forkJoin(
+      this.http.get(this.baseUrl + 'pokemon/' + id).map(response => response.json()),
+      this.http.get(this.baseUrl + 'pokemon-species/' + id).map(response => response.json())
+    ).map(res => console.log(res))
       .shareReplay(1)
       .catch(this.handleError);
   }

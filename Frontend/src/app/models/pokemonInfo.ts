@@ -9,4 +9,5 @@ export class PokemonInfo {
     weight: number;
     height: number;
     types: Array<string>;
+    
 }

@@ -29,7 +29,7 @@ export class PokemonPageComponent implements OnInit {
       (params: any) => {
         this.id = params['id'];
         this.pokemonImg += this.id + '.png';
-        this.getPokemon()
+        this.getPokemon();
 
       });
 

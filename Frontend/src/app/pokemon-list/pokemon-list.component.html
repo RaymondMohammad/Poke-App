@@ -1,15 +1,15 @@
 <div style="text-align:center">
-  <h1>
-  Welcome to PokéApp!
+  <h1 class="font">
+  Pokémon List
 </h1>
   <div class="row" style="width: 90%; margin: auto">
-      <div class="col-1 card-column" *ngFor="let p of pokemon">
+      <div id="cont" class="col-1 card-column" *ngFor="let p of pokemon">
           <a [routerLink]="['/pokemon', p.id]">
               <img class="card-img-top swing" [ngClass]="{'hidden': !p.imageLoaded}" (load)="p.imageLoaded = true" [attr.src]="p.sprite" alt="Pokemon">
               <div class="card-body">
                   <h5 class="card-title">
                   # <span class="font">{{ p.id }} </span>
-                  <p>{{ p.name }}</p>
+                  <p>{{ p.name | titlecase }}</p>
               </h5>
               </div>
           </a>

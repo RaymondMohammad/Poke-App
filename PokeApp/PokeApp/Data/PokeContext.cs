@@ -16,6 +16,8 @@ namespace PokeApp.Data
         public DbSet<Trainer> Trainers { get; set; }
         public DbSet<Pokemon> Pokemons { get; set; }
 
+        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

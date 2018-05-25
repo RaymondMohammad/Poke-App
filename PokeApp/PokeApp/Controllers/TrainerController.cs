@@ -7,8 +7,6 @@ using PokeApp.Models;
 using PokeApp.Data;
 using Microsoft.EntityFrameworkCore;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace PokeApp.Controllers
 {
     [Route("api/[controller]")]
@@ -44,7 +42,7 @@ namespace PokeApp.Controllers
         [HttpPost]
         public IActionResult AddTrainer([FromBody] Trainer newTrainer)
         {
-            var trainer = newTrainer;
+            Trainer trainer = newTrainer;
 
             context.Trainers.Add(trainer);
             context.SaveChanges();
