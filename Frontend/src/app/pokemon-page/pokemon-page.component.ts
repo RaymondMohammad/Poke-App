@@ -16,21 +16,20 @@ export class PokemonPageComponent implements OnInit {
   private subscription: Subscription;
   pokemonInfo: PokemonInfo = new PokemonInfo();
   id: number;
+  currentId: number;
   errors: string;
   isLoading: boolean = false;
   pokemon: any;
-  pokemonImg: string = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other-sprites/official-artwork/';
+  pokemonImg: string;
+  imgString: string = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other-sprites/official-artwork/';
 
   constructor(private pokemonService: PokemonService, private route: ActivatedRoute, private cacheService: CacheService) { }
 
   ngOnInit() {
-    this.pokemonInfo = JSON.parse(localStorage.getItem('pokemonInfo'));
     this.subscription = this.route.params.subscribe(
       (params: any) => {
         this.id = params['id'];
-        this.pokemonImg += this.id + '.png';
         this.getPokemon();
-
       });
 
   }
@@ -38,7 +37,10 @@ export class PokemonPageComponent implements OnInit {
   getPokemon() {
     this.isLoading = true;
     this.pokemon = this.cacheService.get(String(this.id), this.pokemonService.getPokemonById(this.id));
-    this.pokemon.finally(() => this.isLoading = false).subscribe(res => this.pokemonInfo = res);
+    this.pokemon.finally(() => this.isLoading = false).subscribe(res => {
+      this.pokemonInfo = res;
+      this.pokemonImg = this.imgString + res.id + '.png';
+    });
   }
 
   /* getPokemon() {

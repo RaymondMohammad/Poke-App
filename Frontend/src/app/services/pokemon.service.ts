@@ -50,10 +50,7 @@ export class PokemonService extends BaseService {
   } */
 
   getPokemonById(id: number): Observable<PokemonInfo> {
-    return Observable.forkJoin(
-      this.http.get(this.baseUrl + 'pokemon/' + id).map(response => response.json()),
-      this.http.get(this.baseUrl + 'pokemon-species/' + id).map(response => response.json())
-    ).map(res => console.log(res))
+    return this.http.get(this.baseUrl + 'pokemon/' + id).map(response => response.json())
       .shareReplay(1)
       .catch(this.handleError);
   }
