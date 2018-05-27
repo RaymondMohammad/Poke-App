@@ -10,11 +10,15 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PokeApp.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using PokeApp.Auth;
 
 namespace PokeApp
 {
     public class Startup
     {
+        public string domain = "https://login-webapp.eu.auth0.com/";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,6 +32,22 @@ namespace PokeApp
             services.AddMvc();
 
             services.AddDbContext<PokeContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = Configuration["Auth0:Authority"];
+                options.Audience = Configuration["Auth0:Audience"];
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("isTrainer", policy => policy.Requirements.Add(new HasScopeRequirement("isTrainer", domain)));
+            });
 
             services.AddCors(options =>
             {
@@ -46,6 +66,8 @@ namespace PokeApp
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseAuthentication();
 
             app.UseMvc();
 

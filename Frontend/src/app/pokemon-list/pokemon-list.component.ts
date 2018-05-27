@@ -17,6 +17,7 @@ export class PokemonListComponent implements OnInit {
   pokemonList: any;
   isLoading: boolean = false;
   errors: string;
+  all: boolean = false;
   private cache: string = '';
 
   constructor(private pokemonService: PokemonService, private route: ActivatedRoute, private cacheService: CacheService) { }
@@ -34,7 +35,11 @@ export class PokemonListComponent implements OnInit {
     this.pokemonList
       .finally(() => this.isLoading = false)
       .subscribe(
-        list => this.pokemon = this.pokemon.concat(list),
+        list => {
+          this.pokemon = this.pokemon.concat(list)
+          if (this.pokemon.length >= 802)
+            this.all = true;
+        },
         errors => this.errors = errors
       );
   }

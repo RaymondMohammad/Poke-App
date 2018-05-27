@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { PokemonService } from '../services/pokemon.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +11,7 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
   value: string = '';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private auth: AuthService, private pokemonService: PokemonService) { }
 
   ngOnInit() {
   }
@@ -20,4 +22,10 @@ export class NavbarComponent implements OnInit {
       this.router.navigate(['pokemon', this.value]);
     this.value = '';
   }
+
+  login() {
+    this.auth.login();
+  }
+
+
 }

@@ -12,20 +12,23 @@
       <li class="nav-item">
         <button class="btn" routerLink="pokemon/list/all">Pokemon list</button>
       </li>
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" *ngIf="auth.isAuthenticated()">
         <div ngbDropdown class="d-inline-block shadow-none">
           <button class="btn" id="dropdownBasic1" ngbDropdownToggle>Trainer</button>
           <div id="borderimg1" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button class="dropdown-item">TEAM</button>
-            <button class="dropdown-item">CONTINUE</button>
-            <button class="dropdown-item">LOG OUT</button>
+            <button class="dropdown-item" routerLink="trainer">TEAMS</button>
+            <button class="dropdown-item">POKEDEX</button>
+            <button class="dropdown-item" (click)="auth.logout()">LOG OUT</button>
           </div>
         </div>
+      </li>
+      <li class="nav-item" *ngIf="!auth.isAuthenticated()">
+        <button class="btn" (click)="login()">LOGIN</button>
       </li>
     </ul>
     <form #f="ngForm" (ngSubmit)="onSubmit()" class="form-inline my-2 my-lg-0">
 
-      <input class="form-control mr-sm-2" id="pokemon" name="pokemon" [(ngModel)]="value" type="text" placeholder="Search pokemon"
+      <input class="form-control mr-sm-2" id="pokemon" name="pokemon" [(ngModel)]="value" type="text" placeholder="Search pokémon"
         aria-label="Search">
 
 

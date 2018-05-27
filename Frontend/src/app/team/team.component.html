@@ -1,0 +1,9 @@
+<button class="btn" (click)="getTrainers()">Get Trainers</button>
+<div class="row">
+  <div class="col" *ngFor="let p of trainers">
+    <p>Name: {{ p.name }}</p>
+    <p>Id: {{ p.trainerId }}</p>
+    <p>Caught: {{ p.caught }}</p>
+  </div>
+
+</div>

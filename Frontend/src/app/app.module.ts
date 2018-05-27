@@ -13,11 +13,16 @@ import { HomeComponent } from './home/home.component';
 
 import { PokemonService } from './services/pokemon.service';
 import { CacheService } from './services/cache.service';
+import { AuthService } from './services/auth.service';
+import { CallbackComponent } from './callback/callback.component';
+import { TeamComponent } from './team/team.component';
 
 const appRoutes: Routes = [
   { path: 'pokemon/:id', component: PokemonPageComponent },
   { path: 'pokemon/list/all', component: PokemonListComponent },
-  { path: '', component: HomeComponent }
+  { path: '', component: HomeComponent },
+  { path: 'signin', component: CallbackComponent },
+  { path: 'trainer', component: TeamComponent },
 ];
 
 @NgModule({
@@ -26,7 +31,9 @@ const appRoutes: Routes = [
     PokemonPageComponent,
     PokemonListComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    CallbackComponent,
+    TeamComponent
   ],
   imports: [
     HttpModule,
@@ -35,7 +42,7 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule
   ],
-  providers: [PokemonService, CacheService],
+  providers: [PokemonService, CacheService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

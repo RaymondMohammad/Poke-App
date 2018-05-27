@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { Pokemon } from '../models/pokemon';
 import { PokemonInfo } from '../models/pokemonInfo';
 import { BaseService } from '../services/base.service';
 import { pluck, share, shareReplay, tap } from 'rxjs/operators';
+import { AuthService } from './auth.service';
+import { Trainer } from '../models/trainer';
 
 @Injectable()
 export class PokemonService extends BaseService {
   private baseUrl: string = 'https://pokeapi.co/api/v2/';
+  private baseApi: string = 'http://localhost:50915/api/';
   private cache$: Observable<Array<Pokemon>>;
   private cache2$: Observable<Array<Pokemon>>;
   private cacheInfo: Observable<PokemonInfo>;
@@ -16,14 +19,32 @@ export class PokemonService extends BaseService {
   private cache: string;
   private counter: number = 0;
   private test;
+  url: string;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private auth: AuthService) {
     super();
   }
 
+  getAllTrainers(): Observable<Trainer[]> {
+    /* const headers = new Headers();
+    const authToken = localStorage.getItem("token");
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `Bearer ${authToken}`);
+    const options = new RequestOptions({ headers: headers }); */
+
+    return this.http.get(this.baseApi + 'trainer')
+      .map((response) => { return <Trainer[]>response.json() })
+      .catch(this.handleError);
+  }
+
   getAllPokemon(offset: number, limit: number): Observable<Pokemon[]> {
-    const url: string = this.baseUrl + 'pokemon/' + '?offset=' + offset + '&limit=' + limit;
-    return this.http.get(url)
+    if (offset >= 792) {
+      this.url = this.baseUrl + 'pokemon/' + '?offset=' + offset + '&limit=' + 10;
+    } else {
+      this.url = this.baseUrl + 'pokemon/' + '?offset=' + offset + '&limit=' + limit;
+    }
+
+    return this.http.get(this.url)
       .map(response => response.json().results)
       .map(items => items.map((item, idx) => {
         const id: number = idx + offset + 1;
