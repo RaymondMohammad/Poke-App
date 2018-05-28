@@ -82,5 +82,7 @@ namespace PokeApp.Controllers
             context.SaveChanges();
             return new OkObjectResult(trainer);
         }
+
+
     }
 }

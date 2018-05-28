@@ -15,14 +15,15 @@ import { PokemonService } from './services/pokemon.service';
 import { CacheService } from './services/cache.service';
 import { AuthService } from './services/auth.service';
 import { CallbackComponent } from './callback/callback.component';
-import { TeamComponent } from './team/team.component';
+import { TeamPageComponent } from './team-page/team-page.component';
+import { MyTeamsComponent } from './my-teams/my-teams.component';
 
 const appRoutes: Routes = [
   { path: 'pokemon/:id', component: PokemonPageComponent },
   { path: 'pokemon/list/all', component: PokemonListComponent },
   { path: '', component: HomeComponent },
   { path: 'signin', component: CallbackComponent },
-  { path: 'trainer', component: TeamComponent },
+  { path: 'trainer', component: MyTeamsComponent },
 ];
 
 @NgModule({
@@ -33,7 +34,8 @@ const appRoutes: Routes = [
     NavbarComponent,
     HomeComponent,
     CallbackComponent,
-    TeamComponent
+    TeamPageComponent,
+    MyTeamsComponent
   ],
   imports: [
     HttpModule,

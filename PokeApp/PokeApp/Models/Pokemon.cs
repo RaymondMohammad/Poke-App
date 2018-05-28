@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -16,8 +17,10 @@ namespace PokeApp.Models
         public int Height { get; set; }
         public int Weight { get; set; }
         public string Image { get; set; }
-        public int TrainerId { get; set; }
+
 
         public Trainer Trainer { get; set; }
+        [JsonIgnore]
+        public Team Team { get; set; }
     }
 }

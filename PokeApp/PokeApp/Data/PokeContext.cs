@@ -15,15 +15,16 @@ namespace PokeApp.Data
 
         public DbSet<Trainer> Trainers { get; set; }
         public DbSet<Pokemon> Pokemons { get; set; }
+        public DbSet<Team> Teams { get; set; }
 
-        
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Trainer>().ToTable("Trainer");
             modelBuilder.Entity<Pokemon>().ToTable("Pokemon");
-            
+            modelBuilder.Entity<Team>().ToTable("Team");
         }
     }
 }

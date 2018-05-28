@@ -26,9 +26,17 @@ namespace PokeApp.Data
             context.SaveChanges();
 
             context.Pokemons.AddRange(
-               new Pokemon { PokemonId = 1, TrainerId = 1, Name = "Bulbasaur", Height = 6, Weight = 4, Image = "img", Description = "desc", Type = "Grass" },
-               new Pokemon { PokemonId = 4, TrainerId = 2, Name = "Charmander", Height = 6, Weight = 4, Image = "img", Description = "desc", Type = "Fire,Dragon" },
-               new Pokemon { PokemonId = 7, TrainerId = 3, Name = "Squirtle", Height = 6, Weight = 4, Image = "img", Description = "desc", Type = "Water" }
+               new Pokemon { PokemonId = 1, Name = "Bulbasaur", Height = 6, Weight = 4, Image = "img", Description = "desc", Type = "Grass" },
+               new Pokemon { PokemonId = 4, Name = "Charmander", Height = 6, Weight = 4, Image = "img", Description = "desc", Type = "Fire,Dragon" },
+               new Pokemon { PokemonId = 7, Name = "Squirtle", Height = 6, Weight = 4, Image = "img", Description = "desc", Type = "Water" }
+           );
+
+            context.SaveChanges();
+
+            context.Teams.AddRange(
+               new Team { TrainerId = 1, Name = "Team 1" },
+               new Team { TrainerId = 2, Name = "Team 2" },
+               new Team { TrainerId = 3, Name = "Team 3" }
            );
 
             context.SaveChanges();
