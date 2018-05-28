@@ -24,6 +24,7 @@ const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'signin', component: CallbackComponent },
   { path: 'trainer', component: MyTeamsComponent },
+  { path: 'trainer/:id/team', component: TeamPageComponent }
 ];
 
 @NgModule({

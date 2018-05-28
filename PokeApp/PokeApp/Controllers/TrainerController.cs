@@ -34,8 +34,20 @@ namespace PokeApp.Controllers
         [HttpGet("{id}")]
         public IActionResult GetTrainerById(int id)
         {
-            var trainer = context.Trainers.Include( t => t.Pokemons).SingleOrDefault( t => t.TrainerId == id);
+            var trainer = context.Trainers.Include(t => t.Pokemons).Include(t => t.Teams).ThenInclude(t => t.Pokemons).SingleOrDefault( t => t.TrainerId == id);
             if ( trainer == null )
+            {
+                return NotFound();
+            }
+
+            return new OkObjectResult(trainer);
+        }
+
+        [HttpGet("{id}/team")]
+        public IActionResult GetTrainerTeams(int id)
+        {
+            var trainer = context.Trainers.Include(t => t.Pokemons).Include(t => t.Teams).SingleOrDefault(t => t.TrainerId == id);
+            if (trainer == null)
             {
                 return NotFound();
             }
@@ -83,6 +95,45 @@ namespace PokeApp.Controllers
             return new OkObjectResult(trainer);
         }
 
+        //Add pokemon to trainer
+        [HttpPut("{id}/add/{pokemonId}")]
+        public IActionResult AddPokemon(int id, int pokemonId)
+        {
+            var trainer = context.Trainers.Include(t => t.Pokemons).SingleOrDefault(t => t.TrainerId == id);
+            var pokemon = context.Pokemons.SingleOrDefault(p => p.PokemonId == pokemonId);
+            if (trainer == null || pokemon == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                trainer.Pokemons.Add(pokemon);
+                context.SaveChanges();
+            }
 
+            return new OkObjectResult(trainer);
+        }
+
+        //Remove pokemon from trainer
+        [HttpPut("{id}/remove/{pokemonId}")]
+        public IActionResult RemovePokemon(int id, int pokemonId)
+        {
+            var trainer = context.Trainers.Include(t => t.Pokemons).SingleOrDefault(t => t.TrainerId == id);
+            var pokemon = context.Pokemons.Include(p => p.Team).SingleOrDefault(p => p.PokemonId == pokemonId);
+            var team = context.Teams.Include(t => t.Pokemons).SingleOrDefault(t => pokemon.Team.TeamId == t.TeamId);
+            if (trainer == null || pokemon == null || team == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                team.Pokemons.Remove(pokemon);
+                trainer.Pokemons.Remove(pokemon);
+                context.SaveChanges();
+            }
+
+            return new OkObjectResult(trainer);
+
+        }
     }
 }

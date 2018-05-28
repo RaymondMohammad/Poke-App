@@ -11,7 +11,7 @@ export class AuthService {
     clientID: 'hp8sKWt5V4i79Q68yYQMQ6HesKTssPx2',
     domain: 'login-webapp.eu.auth0.com',
     responseType: 'token id_token',
-    audience: 'https://login-webapp.eu.auth0.com/userinfo',
+    audience: 'http://localhost:50915/api/auth0',
     redirectUri: 'http://localhost:4200/signin',
     scope: 'openid profile isTrainer'
   });
@@ -39,6 +39,10 @@ export class AuthService {
       .map(response => response.json())
       .catch(error => <any>console.log(error));
   } */
+
+  public request() {
+
+  }
 
   public login(): void {
     this.auth0.authorize();

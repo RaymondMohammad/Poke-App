@@ -18,7 +18,7 @@ namespace PokeApp.Models
         public int Weight { get; set; }
         public string Image { get; set; }
 
-
+        [JsonIgnore]
         public Trainer Trainer { get; set; }
         [JsonIgnore]
         public Team Team { get; set; }

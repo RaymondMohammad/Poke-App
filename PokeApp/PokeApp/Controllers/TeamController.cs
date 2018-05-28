@@ -28,8 +28,8 @@ namespace PokeApp.Controllers
             return new OkObjectResult(teams);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetTeamsById(int id)
+        [HttpGet("trainer/{id}")]
+        public IActionResult GetTeamById(int id)
         {
             var team = context.Teams.Include(t => t.Pokemons).SingleOrDefault(t => t.TeamId == id);
             if (team == null)
@@ -39,6 +39,18 @@ namespace PokeApp.Controllers
 
             return new OkObjectResult(team);
         }
+
+        //[HttpGet("{id}")]
+        //public IActionResult GetTeamsByTrainerId(int id)
+        //{
+        //    var teams = context.Teams.Where(t => t.TrainerId == id).Include(t => t.Pokemons).ToList();
+        //    if (teams == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return new OkObjectResult(teams);
+        //}
 
         [HttpPost]
         public IActionResult AddTeam([FromBody] Team newTeam)
@@ -50,12 +62,13 @@ namespace PokeApp.Controllers
             return new OkObjectResult(team);
         }
 
+        // Add to team
         [HttpPut("{id}/add/{pokemonId}/{newPokemon?}")]
         public IActionResult UpdateTeam(int id, int pokemonId, int newPokemon)
         {
             var team = context.Teams.Include(t => t.Pokemons).SingleOrDefault(t => t.TeamId == id);
-            var pokemon = context.Pokemons.SingleOrDefault(p => p.PokemonId == pokemonId);
-            if (team == null || pokemon == null)
+            var pokemon = context.Pokemons.SingleOrDefault(p => p.PokemonId == pokemonId && p.Trainer.TrainerId == team.TrainerId);
+            if (team == null || pokemon == null || context.Pokemons.Any(p => p.PokemonId == 2))
             {
                 return NotFound();
             }
@@ -68,6 +81,7 @@ namespace PokeApp.Controllers
             return new OkObjectResult(team);
         }
 
+        // Remove from team
         [HttpPut("{id}/remove/{pokemonId}")]
         public IActionResult RemovePokemon(int id, int pokemonId)
         {
@@ -90,12 +104,13 @@ namespace PokeApp.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteTeam(int id)
         {
-            var team = context.Teams.SingleOrDefault(t => t.TeamId == id);
+            var team = context.Teams.Include(t => t.Pokemons).SingleOrDefault(t => t.TeamId == id);
             if (team == null)
             {
                 return NotFound();
             }
 
+            //team.Pokemons.Clear();
             context.Teams.Remove(team);
             context.SaveChanges();
             return NoContent();

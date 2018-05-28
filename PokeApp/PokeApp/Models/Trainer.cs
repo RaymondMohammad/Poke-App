@@ -13,7 +13,6 @@ namespace PokeApp.Models
         public string Name { get; set; }
         public int Caught { get; set; }
 
-        [JsonIgnore]
         public ICollection<Pokemon> Pokemons { get; set; }
         public ICollection<Team> Teams { get; set; }
     }
