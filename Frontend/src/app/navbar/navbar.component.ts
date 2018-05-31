@@ -18,8 +18,12 @@ export class NavbarComponent implements OnInit {
 
   onSubmit() {
     //TODO: return error
-    if (this.value != '' && !(Number(this.value) >= 802))
+    if (this.value != '' && !(Number(this.value) >= 802)) {
+      if(isNaN(Number(this.value))) {
+        this.value = this.value.toLowerCase();
+      }
       this.router.navigate(['pokemon', this.value]);
+    }
     this.value = '';
   }
 

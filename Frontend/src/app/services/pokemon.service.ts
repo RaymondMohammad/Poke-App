@@ -19,7 +19,6 @@ export class PokemonService extends BaseService {
   private cache: string;
   private counter: number = 0;
   private test;
-  url: string;
 
   constructor(private http: Http, private auth: AuthService) {
     super();
@@ -39,19 +38,16 @@ export class PokemonService extends BaseService {
 
   getAllPokemon(offset: number, limit: number): Observable<Pokemon[]> {
     if (offset >= 792) {
-      this.url = this.baseUrl + 'pokemon/' + '?offset=' + offset + '&limit=' + 10;
-    } else {
-      this.url = this.baseUrl + 'pokemon/' + '?offset=' + offset + '&limit=' + limit;
+      limit = 10;
     }
 
-    return this.http.get(this.url)
+    return this.http.get(this.baseUrl + 'pokemon/' + '?offset=' + offset + '&limit=' + limit)
       .map(response => response.json().results)
       .map(items => items.map((item, idx) => {
         const id: number = idx + offset + 1;
 
         return {
           name: item.name,
-          // sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other-sprites/official-artwork/' + id + '.png',
           sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + id + '.png',
           id
         };
@@ -70,9 +66,17 @@ export class PokemonService extends BaseService {
     return Observable.of(JSON.parse(localStorage.getItem('pokemonInfo')))
   } */
 
-  getPokemonById(id: number): Observable<PokemonInfo> {
-    return this.http.get(this.baseUrl + 'pokemon/' + id).map(response => response.json())
-      .shareReplay(1)
-      .catch(this.handleError);
+  getPokemonById(id: any): Observable<PokemonInfo> {
+    return this.http.get(this.baseUrl + 'pokemon/' + id)
+    .map(response => response.json())
+    .shareReplay(1)
+    .catch(this.handleError);
+  }
+
+  getPokemonInfo(info: string): Observable<PokemonInfo> {
+    return this.http.get(info)
+    .map(response => response.json())
+    .shareReplay(1)
+    .catch(this.handleError);
   }
 }

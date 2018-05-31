@@ -14,13 +14,13 @@ import { CacheService } from '../services/cache.service';
 export class PokemonPageComponent implements OnInit {
 
   private subscription: Subscription;
-  pokemonInfo: PokemonInfo = new PokemonInfo();
-  id: number;
+  pokemonInfo: PokemonInfo;
+  id: any;
+  url: string;
   currentId: number;
   errors: string;
   isLoading: boolean = false;
   pokemon: any;
-  pokemonImg: string;
   imgString: string = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other-sprites/official-artwork/';
 
   constructor(private pokemonService: PokemonService, private route: ActivatedRoute, private cacheService: CacheService) { }
@@ -35,27 +35,19 @@ export class PokemonPageComponent implements OnInit {
   }
 
   getPokemon() {
+    this.errors = '';
     this.isLoading = true;
     this.pokemon = this.cacheService.get(String(this.id), this.pokemonService.getPokemonById(this.id));
-    this.pokemon.finally(() => this.isLoading = false).subscribe(res => {
+    this.pokemon.subscribe(res => {
       this.pokemonInfo = res;
-      this.pokemonImg = this.imgString + res.id + '.png';
-    });
-  }
-
-  /* getPokemon() {
-    this.isLoading = true;
-    this.pokemonService.getPokemonById(this.id)
+      this.pokemonInfo.img = this.imgString + res.id + '.png';
+      this.cacheService.get(String(this.id + "-info"), this.pokemonService.getPokemonInfo(res.species.url))
       .finally(() => this.isLoading = false)
-      .subscribe(
-        res => {
-          console.log(res);
-          this.pokemonInfo = res;
-          localStorage.setItem('pokemonInfo', JSON.stringify(this.pokemonInfo));
-          console.log(this.pokemonInfo);
-
-        },
-        errors => this.errors = errors
-      );
-  } */
+      .subscribe( response => {
+        this.pokemonInfo.description = response.flavor_text_entries.find(function (obj) { return obj.language.name === "en"; }).flavor_text;
+      })
+    },
+      errors => this.errors = errors
+  );
+  }
 }
