@@ -1,31 +1,69 @@
-<div style="width: 80%; margin: auto" *ngIf="!isLoading">
-    <div *ngIf='!errors'>
-            <p></p>
-            <h1 style="text-align: center">#{{ pokemonInfo.id }} {{ pokemonInfo.name | titlecase }}</h1>
-            <div>
+<div style="width: 80%; margin: auto; text-align:center;">
+  <div *ngIf='!errors && !isLoading'>
+    <p></p>
+
+    <div>
+      <div class="row" style="display: flex; align-items: center;">
+        <div class="col-4">
+          <h1 class="m-3">#{{ pokemonInfo.id }} {{ pokemonInfo.name | titlecase }}
+            <img style="width: 1em; height: 1.5em;" src="https://ih1.redbubble.net/image.13661122.7699/raf,750x1000,075,t,fafafa:ca443f4786.u2.jpg"
+              *ngIf="pokemonInfo.id == 4">
+          </h1>
+          <img class="swing" [src]="pokemonInfo.img" alt="Pokemon">
+        </div>
+        <div class="col">
+          <div class="mx-auto" style="width: 70%;">
+            <div class="row m-5">
+              <div class="col-6">
+                <h2>Types</h2>
                 <div class="row">
-                    <div class="col-4">
-                        <img class="card-img-top swing" [src]="pokemonInfo.img" alt="Pokemon">
-                    </div>
-                    <div class="col d-flex justify-content-center">
-                        <div class="d-flex  align-items-center">
-        
-                        </div>
-                    </div>
+                  <div class="col">
+                    <h3>{{ pokemonInfo.types[0].type.name | titlecase }}</h3>
+                  </div>
+                  <div class="col" *ngIf="pokemonInfo.types[1]">
+                    <h3>{{ pokemonInfo.types[1].type.name | titlecase }}</h3>
+                  </div>
                 </div>
-                <div class="row">
-                    <div class="card-body">
-        
-                        <p class="card-text">{{ pokemonInfo.description }}</p>
-                        <p>Weight: {{ pokemonInfo.weight }}, Height: {{ pokemonInfo.height }}</p>
-                    </div>
-                </div>
+
+              </div>
+              <div class="col-6">
+                <h2>Gen</h2>
+                <h3>{{ pokemonInfo.generation | titlecase }}</h3>
+              </div>
             </div>
+            <div class="row m-5">
+              <div class="col-6">
+                <h2>Height</h2>
+                <h3>{{ pokemonInfo.height }} m</h3>
+              </div>
+              <div class="col-6">
+                <h2>Species</h2>
+                <h3>{{ pokemonInfo.species }}</h3>
+              </div>
+            </div>
+            <div class="row m-5">
+              <div class="col-6">
+                <h2>Weight</h2>
+                <h3>{{ pokemonInfo.weight }} kg</h3>
+
+              </div>
+              <div class="col-6">
+                <h2>Habitat</h2>
+                <h3>{{ pokemonInfo.habitat | titlecase }}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="borderimg my-5 font">
+        <h3>{{ pokemonInfo.description }}</h3>
+      </div>
     </div>
-    <div *ngIf='errors'>
-            <strong>Oops!</strong> {{ this.id | titlecase }} {{ errors | lowercase }}
-    </div>
-</div>
-<div *ngIf="isLoading">
+  </div>
+  <div *ngIf='errors'>
+    <strong>Oops!</strong> {{ this.id | titlecase }} {{ errors | lowercase }}
+  </div>
+  <div *ngIf="isLoading">
     Loading...
+  </div>
 </div>

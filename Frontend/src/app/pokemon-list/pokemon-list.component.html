@@ -1,5 +1,5 @@
 <div style="text-align:center">
-  <h1 class="font">
+  <h1 class="font m-2">
     Pokémon List
   </h1>
   <div class="row" style="width: 90%; margin: auto">
@@ -11,7 +11,10 @@
           <h5 class="card-title">
             #
             <span class="font">{{ p.id }} </span>
+            <img style="width: 1em; height: 1.5em; margin-top: -0.5em;" src="https://ih1.redbubble.net/image.13661122.7699/raf,750x1000,075,t,fafafa:ca443f4786.u2.jpg"
+              *ngIf="p.id == 4">
             <p>{{ p.name | titlecase }}</p>
+
           </h5>
         </div>
       </a>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { PokemonService } from '../services/pokemon.service';
 
@@ -9,9 +10,11 @@ import { PokemonService } from '../services/pokemon.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  private subscription: Subscription;
   value: string = '';
+  error: string;
 
-  constructor(private router: Router, private auth: AuthService, private pokemonService: PokemonService) { }
+  constructor(private route: Router, private router: ActivatedRoute, private auth: AuthService, private pokemonService: PokemonService) { }
 
   ngOnInit() {
   }
@@ -19,10 +22,13 @@ export class NavbarComponent implements OnInit {
   onSubmit() {
     //TODO: return error
     if (this.value != '' && !(Number(this.value) >= 802)) {
-      if(isNaN(Number(this.value))) {
+      if (isNaN(Number(this.value))) {
         this.value = this.value.toLowerCase();
       }
-      this.router.navigate(['pokemon', this.value]);
+      this.route.navigate(['pokemon', this.value]);
+      this.error = "";
+    } else {
+      this.error = "Pokemon not found";
     }
     this.value = '';
   }

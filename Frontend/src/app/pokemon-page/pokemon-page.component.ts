@@ -42,12 +42,15 @@ export class PokemonPageComponent implements OnInit {
       this.pokemonInfo = res;
       this.pokemonInfo.img = this.imgString + res.id + '.png';
       this.cacheService.get(String(this.id + "-info"), this.pokemonService.getPokemonInfo(res.species.url))
-      .finally(() => this.isLoading = false)
-      .subscribe( response => {
-        this.pokemonInfo.description = response.flavor_text_entries.find(function (obj) { return obj.language.name === "en"; }).flavor_text;
-      })
+        .finally(() => this.isLoading = false)
+        .subscribe(response => {
+          this.pokemonInfo.description = response.flavor_text_entries.find(function (obj) { return obj.language.name === "en"; }).flavor_text;
+          this.pokemonInfo.species = response.genera.find(function (obj) { return obj.language.name === "en"; }).genus;
+          this.pokemonInfo.generation = response.generation.name;
+          this.pokemonInfo.habitat = response.habitat.name;
+        })
     },
       errors => this.errors = errors
-  );
+    );
   }
 }

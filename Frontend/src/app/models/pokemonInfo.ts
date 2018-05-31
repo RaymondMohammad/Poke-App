@@ -8,8 +8,11 @@ export class PokemonInfo {
     img: string;
     name: string;
     description: string;
+    habitat: string;
     weight: number;
     height: number;
-    types: Array<string>;
-    
+    generation: string;
+    species: string;
+    types: any;
+
 }
