@@ -16,15 +16,17 @@ import { CacheService } from './services/cache.service';
 import { AuthService } from './services/auth.service';
 import { CallbackComponent } from './callback/callback.component';
 import { TeamPageComponent } from './team-page/team-page.component';
-import { MyTeamsComponent } from './my-teams/my-teams.component';
+import { TrainerPageComponent } from './trainer-page/trainer-page.component';
+import { ApiService } from './services/api.service';
+import { AuthGuard } from './auth.guard';
 
 const appRoutes: Routes = [
   { path: 'pokemon/:id', component: PokemonPageComponent },
   { path: 'pokemon/list/all', component: PokemonListComponent },
   { path: '', component: HomeComponent },
-  { path: 'signin', component: CallbackComponent },
-  { path: 'trainer', component: MyTeamsComponent },
-  { path: 'trainer/:id/team', component: TeamPageComponent }
+  { path: 'signin', component: CallbackComponent, canActivate: [AuthGuard] },
+  { path: 'trainer', component: TrainerPageComponent, canActivate: [AuthGuard] },
+  { path: 'trainer/:id/team/:teamId', component: TeamPageComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -36,7 +38,7 @@ const appRoutes: Routes = [
     HomeComponent,
     CallbackComponent,
     TeamPageComponent,
-    MyTeamsComponent
+    TrainerPageComponent
   ],
   imports: [
     HttpModule,
@@ -45,7 +47,7 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule
   ],
-  providers: [PokemonService, CacheService, AuthService],
+  providers: [PokemonService, CacheService, AuthService, AuthGuard, ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -10,6 +10,8 @@ namespace PokeApp.Models
     public class Trainer
     {
         public int TrainerId { get; set; }
+        [JsonProperty("userId")]
+        public string UserId { get; set; }
         public string Name { get; set; }
         public int Caught { get; set; }
 

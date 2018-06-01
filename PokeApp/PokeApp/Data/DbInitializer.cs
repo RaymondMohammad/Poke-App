@@ -18,9 +18,9 @@ namespace PokeApp.Data
             }
 
             context.Trainers.AddRange(
-               new Trainer { Name = "Trainer1", Caught = 12},
-               new Trainer { Name = "Trainer2", Caught = 8 },
-               new Trainer { Name = "Trainer3", Caught = 26 }
+               new Trainer { UserId = "15656", Name = "Trainer1", Caught = 12},
+               new Trainer { UserId = "55166", Name = "Trainer2", Caught = 8 },
+               new Trainer { UserId = "56498", Name = "Trainer3", Caught = 26 }
            );
 
             context.SaveChanges();

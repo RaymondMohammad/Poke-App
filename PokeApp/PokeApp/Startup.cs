@@ -12,6 +12,7 @@ using PokeApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using PokeApp.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PokeApp
 {
@@ -57,6 +58,8 @@ namespace PokeApp
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
+
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

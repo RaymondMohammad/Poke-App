@@ -1,0 +1,22 @@
+<div class="center" *ngIf="!account">
+  <form #f="ngForm" (ngSubmit)="onSubmit()" class="">
+    <h2>Choose a trainer name </h2>
+    <div class="form-row">
+      <div class="form-group col-10">
+        <input class="form-control mr-sm-2" id="trainer" name="trainer" [(ngModel)]="value" type="text" placeholder="Input trainer name"
+          aria-label="Trainer">
+      </div>
+      <div class="form-group col">
+        <button class="btn btn-outline-success my-sm-0" type="submit">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>
+<div *ngIf="account">
+  <div *ngIf="trainer">
+    <h1>{{ trainer.name }}</h1>
+  </div>
+</div>
+<div *ngIf="!errors">
+
+</div>

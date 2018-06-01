@@ -43,6 +43,18 @@ namespace PokeApp.Controllers
             return new OkObjectResult(trainer);
         }
 
+        [HttpGet("user/{id}")]
+        public IActionResult GetTrainerByUserId(string id)
+        {
+            var trainer = context.Trainers.Include(t => t.Pokemons).Include(t => t.Teams).ThenInclude(t => t.Pokemons).SingleOrDefault(t => t.UserId == id);
+            if (trainer == null)
+            {
+                return NotFound();
+            }
+
+            return new OkObjectResult(trainer);
+        }
+
         [HttpGet("{id}/team")]
         public IActionResult GetTrainerTeams(int id)
         {
@@ -59,6 +71,11 @@ namespace PokeApp.Controllers
         public IActionResult AddTrainer([FromBody] Trainer newTrainer)
         {
             Trainer trainer = newTrainer;
+
+            if (context.Trainers.Where(t => t.UserId == trainer.UserId).Any())
+            {
+                return BadRequest();
+            }
 
             context.Trainers.Add(trainer);
             context.SaveChanges();

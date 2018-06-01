@@ -40,18 +40,6 @@ namespace PokeApp.Controllers
             return new OkObjectResult(team);
         }
 
-        //[HttpGet("{id}")]
-        //public IActionResult GetTeamsByTrainerId(int id)
-        //{
-        //    var teams = context.Teams.Where(t => t.TrainerId == id).Include(t => t.Pokemons).ToList();
-        //    if (teams == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return new OkObjectResult(teams);
-        //}
-
         [HttpPost]
         public IActionResult AddTeam([FromBody] Team newTeam)
         {

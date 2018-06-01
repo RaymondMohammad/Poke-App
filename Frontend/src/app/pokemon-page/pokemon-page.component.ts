@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { PokemonInfo } from '../models/pokemonInfo';
 import { map } from 'rxjs/operators';
 import { CacheService } from '../services/cache.service';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-pokemon-page',
@@ -23,7 +24,7 @@ export class PokemonPageComponent implements OnInit {
   pokemon: any;
   imgString: string = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other-sprites/official-artwork/';
 
-  constructor(private pokemonService: PokemonService, private route: ActivatedRoute, private cacheService: CacheService) { }
+  constructor(private pokemonService: PokemonService, private route: ActivatedRoute, private cacheService: CacheService, private api: ApiService) { }
 
   ngOnInit() {
     this.subscription = this.route.params.subscribe(
@@ -52,5 +53,19 @@ export class PokemonPageComponent implements OnInit {
     },
       errors => this.errors = errors
     );
+  }
+
+  addPokemon() {
+    this.api.addPokemon(this.pokemonInfo)
+      .subscribe(res => {
+      });
+    //this.capturePokemon();
+  }
+
+  capturePokemon() {
+    this.api.capturePokemon(this.id)
+      .subscribe(res => {
+        console.log(res);
+      });
   }
 }

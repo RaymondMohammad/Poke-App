@@ -3,49 +3,56 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import * as auth0 from 'auth0-js';
+import { ApiService } from './api.service';
+import { Trainer } from '../models/trainer';
 
 @Injectable()
 export class AuthService {
+  userProfile: any;
+  user: any;
+  trainer: Trainer;
+  errors: string;
 
   auth0 = new auth0.WebAuth({
     clientID: 'hp8sKWt5V4i79Q68yYQMQ6HesKTssPx2',
     domain: 'login-webapp.eu.auth0.com',
     responseType: 'token id_token',
     audience: 'http://localhost:50915/api/auth0',
-    redirectUri: 'http://localhost:4200/signin',
+    redirectUri: 'http://localhost:4200/',
     scope: 'openid profile isTrainer'
   });
 
-  constructor(private http: Http, public router: Router) { }
-
-  /* public request() {
-    const url = 'https://login-webapp.eu.auth0.com/authorize?audience=http://localhost:50915/api/auth0&scope=openid profile isTrainer&response_type=id_token token&client_id=hp8sKWt5V4i79Q68yYQMQ6HesKTssPx2&nonce=fsd5f4sd51f5sd1f85sd';
-    const headers = new Headers();
-    const authToken = localStorage.getItem("id_token");
-    headers.append('Content-Type', 'application/json');
-    headers.append('Authorization', `Bearer ${authToken}`);
-    const options = new RequestOptions({
-      headers: headers,
-      body:
-        {
-          grant_type: 'client_credentials',
-          client_id: 'hp8sKWt5V4i79Q68yYQMQ6HesKTssPx2',
-          client_secret: 'CH8OgUp0cxn4F4jF1ADSC7ZZpnXV7Pj4bG0MMNsZEuLD3YF-RZlrdKY5aGym3xMJ',
-          audience: 'http://localhost:50915/api/auth0'
-        }
-    });
-
-    return this.http.get(url)
-      .map(response => response.json())
-      .catch(error => <any>console.log(error));
-  } */
-
-  public request() {
-
-  }
+  constructor(private http: Http, public router: Router, public api: ApiService) { }
 
   public login(): void {
     this.auth0.authorize();
+  }
+
+  public getTrainer() {
+    if (this.user && !this.trainer) {
+      this.api.getTrainer(this.user).subscribe(res => {
+        this.trainer = res;
+        localStorage.setItem('trainer_id', String(res.trainerId));
+        this.router.navigate(['']);
+      },
+        errors => this.router.navigate(['trainer'])
+      );
+    }
+  }
+
+  public getProfile(cb): void {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      throw new Error('Access Token must exist to fetch profile');
+    }
+
+    const self = this;
+    this.auth0.client.userInfo(accessToken, (err, profile) => {
+      if (profile) {
+        self.userProfile = profile;
+      }
+      cb(err, profile);
+    });
   }
 
   public handleAuthentication(): void {
@@ -53,7 +60,15 @@ export class AuthService {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
-        this.router.navigate(['']);
+
+        this.getProfile((err, profile) => {
+          this.userProfile = profile;
+          this.user = profile.sub.substr((profile.sub.indexOf("|") + 1));
+          localStorage.setItem('user_id', this.user);
+          this.router.navigate(['trainer']);
+          //this.getTrainer();
+        });
+
       } else if (err) {
         this.router.navigate(['']);
         console.log(err);
@@ -67,6 +82,7 @@ export class AuthService {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
+
   }
 
   public logout(): void {
@@ -74,6 +90,8 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('trainer_id');
     // Go back to the home route
     this.router.navigate(['']);
   }

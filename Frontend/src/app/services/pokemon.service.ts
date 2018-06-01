@@ -68,15 +68,15 @@ export class PokemonService extends BaseService {
 
   getPokemonById(id: any): Observable<PokemonInfo> {
     return this.http.get(this.baseUrl + 'pokemon/' + id)
-    .map(response => response.json())
-    .shareReplay(1)
-    .catch(this.handleError);
+      .map(response => response.json())
+      .shareReplay(1)
+      .catch(this.handleError);
   }
 
   getPokemonInfo(info: string): Observable<PokemonInfo> {
     return this.http.get(info)
-    .map(response => response.json())
-    .shareReplay(1)
-    .catch(this.handleError);
+      .map(response => response.json())
+      .shareReplay(1)
+      .catch(this.handleError);
   }
 }

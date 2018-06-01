@@ -47,6 +47,11 @@ namespace PokeApp.Controllers
         {
             var pokemon = newPokemon;
 
+            if (context.Pokemons.Where(t => t.PokemonId == pokemon.PokemonId).Any())
+            {
+                return BadRequest();
+            }
+
             context.Pokemons.Add(pokemon);
             context.SaveChanges();
             return new OkObjectResult(pokemon);
