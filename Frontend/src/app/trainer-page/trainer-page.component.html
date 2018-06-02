@@ -1,5 +1,5 @@
 <div class="center" *ngIf="!account">
-  <form #f="ngForm" (ngSubmit)="onSubmit()" class="">
+  <form #f="ngForm" (ngSubmit)="onSubmit()">
     <h2>Choose a trainer name </h2>
     <div class="form-row">
       <div class="form-group col-10">
@@ -13,10 +13,119 @@
   </form>
 </div>
 <div *ngIf="account">
-  <div *ngIf="trainer">
-    <h1>{{ trainer.name }}</h1>
-  </div>
-</div>
-<div *ngIf="!errors">
+  <div *ngIf="trainer" style="text-align: center">
+    <div class="row m-4">
+      <div class="col-1">
+        <h2 class="font">
+          Id
+        </h2>
+        <h2>
+          #{{ trainer.trainerId }}
+        </h2>
+      </div>
+      <div class="col">
+        <h1 class="font">
+          Trainer
+        </h1>
+        <h2>
+          {{ trainer.name }}
+        </h2>
+      </div>
+      <div class="col-1">
+        <h2 class="font">
+          Teams
+        </h2>
+        <h2 *ngIf="trainer.teams">
+          {{ trainer.teams.length }}
+        </h2>
+      </div>
+    </div>
 
+    <div class="teams">
+      <h2 class="m-3">Your teams</h2>
+      <ng-container *ngIf="teams">
+        <div class="card card-body container-fluid m-4" *ngFor="let team of teams">
+          <div>
+            <div class="card-title clearfix">
+              <h4 class="float-left">{{team.name}}</h4>
+              <h3 class="float-right">#{{team.teamId}}</h3>
+            </div>
+            <div class="card-footer">
+              <div class="row" *ngIf="team.pokemons">
+                <div id="cont" class="col-1 card-column" *ngFor="let p of team.pokemons">
+                  <a [routerLink]="['/pokemon', p.pokemonId]">
+                    <img class="swing" [ngClass]="{'hidden': !p.imageLoaded}" (load)="p.imageLoaded = true" [attr.src]="p.spriteImg" alt="Pokemon">
+                    <span>#{{ p.pokemonId }} {{ p.name | titlecase }}</span>
+                  </a>
+                </div>
+              </div>
+              <div *ngIf="team.pokemons <= 0">
+                No pokemon in this team
+              </div>
+
+              <ng-template #addPokemon let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                  <h4 class="modal-title">Choose pokemon to add</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <select class="form-control" id="formControlSelect1" [(ngModel)]="selectedValueAdd">
+                      <option *ngFor="let c of pokemon" [ngValue]="c.pokemonId">#{{ c.pokemonId }} {{ c.name | titlecase }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary mx-2" (click)="c('Close click')">Close</button>
+                  <button type="button" class="btn btn-primary" (click)="addPokemonToTeam(selectedValueAdd, team.teamId)" (click)="c('Close click')">Save changes</button>
+                </div>
+              </ng-template>
+
+              <ng-template #removePokemon let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                  <h4 class="modal-title">Choose pokemon to remove</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <select class="form-control" id="formControlSelect2" [(ngModel)]="selectedValueRemove">
+                      <option *ngFor="let c of team.pokemons" [ngValue]="c.pokemonId">#{{ c.pokemonId }} {{ c.name | titlecase }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary mx-2" (click)="c('Close click')">Close</button>
+                  <button type="button" class="btn btn-primary" (click)="removePokemonFromTeam(selectedValueRemove, team.teamId)" (click)="c('Close click')">Save changes</button>
+                </div>
+              </ng-template>
+
+              <div class="float-right">
+                <button type="button" class="btn btn-primary" (click)="openModal(addPokemon)">Add pokemon</button>
+                <button type="button" class="btn btn-primary" (click)="openModal(removePokemon)">Remove pokemon</button>
+                <button type="button" class="btn btn-warning" (click)="deleteTeam(team.teamId)">Delete team</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="teams.length <= 0">
+        <h4>No teams available.</h4>
+      </ng-container>
+
+      <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="modal-title">Choose a name for this team</h4>
+        </div>
+        <div class="modal-body">
+          <input class="form-control mr-sm-2" id="teamName" name="teamName" [(ngModel)]="teamName" type="text" placeholder="Input team name"
+            aria-label="teamName">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary mx-2" (click)="c('Close click')">Close</button>
+          <button type="button" class="btn btn-primary" (click)="addTeam()" (click)="c('Close click')">Save changes</button>
+        </div>
+      </ng-template>
+
+      <button type="button" class="btn btn-raised btn-primary" (click)="openModal(content)">Add team</button>
+    </div>
+  </div>
 </div>

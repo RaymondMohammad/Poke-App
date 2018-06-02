@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using PokeApp.Models;
 
 namespace PokeApp.Controllers
 {
+    [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     public class TeamController : Controller
     {
@@ -56,7 +58,7 @@ namespace PokeApp.Controllers
         {
             var team = context.Teams.Include(t => t.Pokemons).SingleOrDefault(t => t.TeamId == id);
             var pokemon = context.Pokemons.SingleOrDefault(p => p.PokemonId == pokemonId && p.Trainer.TrainerId == team.TrainerId);
-            if (team == null || pokemon == null || context.Pokemons.Any(p => p.PokemonId == 2))
+            if (team == null || pokemon == null || team.Pokemons.Count() >= 6)
             {
                 return NotFound();
             }

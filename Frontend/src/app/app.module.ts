@@ -19,14 +19,15 @@ import { TeamPageComponent } from './team-page/team-page.component';
 import { TrainerPageComponent } from './trainer-page/trainer-page.component';
 import { ApiService } from './services/api.service';
 import { AuthGuard } from './auth.guard';
+import { PokedexComponent } from './pokedex/pokedex.component';
 
 const appRoutes: Routes = [
   { path: 'pokemon/:id', component: PokemonPageComponent },
   { path: 'pokemon/list/all', component: PokemonListComponent },
   { path: '', component: HomeComponent },
-  { path: 'signin', component: CallbackComponent, canActivate: [AuthGuard] },
   { path: 'trainer', component: TrainerPageComponent, canActivate: [AuthGuard] },
-  { path: 'trainer/:id/team/:teamId', component: TeamPageComponent, canActivate: [AuthGuard] }
+  { path: 'trainer/:id/team/:teamId', component: TeamPageComponent, canActivate: [AuthGuard] },
+  { path: 'trainer/:id/pokedex', component: PokedexComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -38,7 +39,8 @@ const appRoutes: Routes = [
     HomeComponent,
     CallbackComponent,
     TeamPageComponent,
-    TrainerPageComponent
+    TrainerPageComponent,
+    PokedexComponent
   ],
   imports: [
     HttpModule,

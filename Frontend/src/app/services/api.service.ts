@@ -7,6 +7,7 @@ import { BaseService } from '../services/base.service';
 import { pluck, share, shareReplay, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Trainer } from '../models/trainer';
+import { Team } from '../models/team';
 
 @Injectable()
 export class ApiService extends BaseService {
@@ -84,17 +85,53 @@ export class ApiService extends BaseService {
       .catch(this.handleError);
   }
 
-  capturePokemon(id: number) {
+  addTeam(name: string): Observable<Team> {
     const trainerId = localStorage.getItem('trainer_id');
-    const headers = new Headers();
     const authToken = localStorage.getItem('access_token');
+    let body = JSON.stringify({ trainerId, name });
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `Bearer ${authToken}`);
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.baseApi + 'trainer/' + trainerId + '/add/' + id, options)
+    return this.http.post(this.baseApi + 'team', body, options)
       .map(res => res.json())
       .catch(this.handleError);
   }
 
+  deleteTeam(id: number): Observable<Team> {
+    const authToken = localStorage.getItem('access_token');
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `Bearer ${authToken}`);
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.delete(this.baseApi + 'team/' + id, options)
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
+  addPokemonToTeam(teamId: number, pokemonId: number) {
+    const authToken = localStorage.getItem('access_token');
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `Bearer ${authToken}`);
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.put(this.baseApi + 'team/' + teamId + '/add/' + pokemonId, options)
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
+  removePokemonFromTeam(teamId: number, pokemonId: number) {
+    const authToken = localStorage.getItem('access_token');
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `Bearer ${authToken}`);
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.put(this.baseApi + 'team/' + teamId + '/remove/' + pokemonId, options)
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
 }

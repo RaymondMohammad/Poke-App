@@ -4,3 +4,20 @@
   width: 30%;
   margin-top: 5em;
 }
+
+a {
+  color: darkslategray;
+}
+
+.font {
+  font-family: "Pokemon Puzzle Challenge GB", Times, serif;
+}
+
+.border {
+  border: 1px solid black;
+}
+
+.teams {
+  margin: auto;
+  width: 80%;
+}

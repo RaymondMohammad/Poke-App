@@ -1,0 +1,37 @@
+<div style="text-align: center">
+  <div class="row m-4">
+    <div class="col-2"></div>
+    <div class="col font">
+      <h1>
+        Pokédex
+      </h1>
+    </div>
+    <div class="col-2">
+      <h2 class="font">
+        Caught
+      </h2>
+      <h2>
+        {{ caught }}
+      </h2>
+    </div>
+  </div>
+
+  <div *ngIf="apiPokemon">
+    <div class="row" style="width: 90%; margin: auto">
+      <div id="cont" class="col-1 card-column" *ngFor="let p of apiPokemon">
+        <a [routerLink]="['/pokemon', p.pokemonId]">
+          <img class="card-img-top swing" [ngClass]="{'hidden': !p.imageLoaded}" (load)="p.imageLoaded = true" [attr.src]="p.spriteImg"
+            alt="Pokemon">
+          <div class="card-body">
+            <h5 class="card-title">
+              #
+              <span class="font">{{ p.pokemonId }} </span>
+
+              <p>{{ p.name | titlecase }}</p>
+            </h5>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

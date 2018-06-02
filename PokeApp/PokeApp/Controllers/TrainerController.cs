@@ -138,8 +138,6 @@ namespace PokeApp.Controllers
             var trainer = context.Trainers.Include(t => t.Pokemons).SingleOrDefault(t => t.TrainerId == id);
             var pokemon = context.Pokemons.Include(p => p.Team).SingleOrDefault(p => p.PokemonId == pokemonId);
 
-            
-            
             if (trainer == null || pokemon == null)
             {
                 return NotFound();
