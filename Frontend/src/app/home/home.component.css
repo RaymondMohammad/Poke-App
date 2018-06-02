@@ -1,3 +1,11 @@
 .font {
-    font-family: "Pokemon Puzzle Challenge GB", Times, serif;
-  }
+  font-family: "Pokemon Puzzle Challenge GB", Times, serif;
+}
+
+.center {
+  min-height: 80%;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

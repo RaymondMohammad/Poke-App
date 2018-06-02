@@ -93,7 +93,7 @@ export class AuthService {
     localStorage.removeItem('user_id');
     localStorage.removeItem('trainer_id');
     // Go back to the home route
-    this.router.navigate(['']);
+    this.router.navigateByUrl('');
   }
 
   public isAuthenticated(): boolean {

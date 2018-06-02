@@ -5,10 +5,10 @@
     <div>
       <div class="row" style="display: flex; align-items: center;">
         <div class="col-4">
-          <h1 class="m-3">#{{ pokemonInfo.id }} {{ pokemonInfo.name | titlecase }}
-            <img style="width: 1em; height: 1.5em;" src="https://ih1.redbubble.net/image.13661122.7699/raf,750x1000,075,t,fafafa:ca443f4786.u2.jpg"
-              *ngIf="pokemonInfo.id == 4">
-            <button type="button" class="btn btn-raised btn-primary" (click)="addPokemon()">Catch!</button>
+          <h1 class="m-3">#{{ pokemonInfo.pokemonId }} {{ pokemonInfo.name | titlecase }}
+            <img style="width: 0.7em; height: 1em;" src="https://ih1.redbubble.net/image.13661122.7699/raf,750x1000,075,t,fafafa:ca443f4786.u2.jpg"
+              *ngIf="caught">
+            <button *ngIf="!caught && loggedIn" type="button" class="btn btn-raised btn-primary" (click)="addPokemon()">Catch!</button>
           </h1>
           <img class="swing" [src]="pokemonInfo.img" alt="Pokemon">
         </div>

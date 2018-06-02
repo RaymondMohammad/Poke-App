@@ -6,6 +6,7 @@ import { PokemonInfo } from '../models/pokemonInfo';
 import { map } from 'rxjs/operators';
 import { CacheService } from '../services/cache.service';
 import { ApiService } from '../services/api.service';
+import { Trainer } from '../models/trainer';
 
 @Component({
   selector: 'app-pokemon-page',
@@ -16,13 +17,18 @@ export class PokemonPageComponent implements OnInit {
 
   private subscription: Subscription;
   pokemonInfo: PokemonInfo;
+  apiPokemon: Array<number> = [];
   id: any;
   url: string;
   currentId: number;
   errors: string;
   isLoading: boolean = false;
+  loggedIn = false;
+  caught: Boolean;
   pokemon: any;
   imgString: string = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other-sprites/official-artwork/';
+  spriteString: string = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
+  trainer: Trainer;
 
   constructor(private pokemonService: PokemonService, private route: ActivatedRoute, private cacheService: CacheService, private api: ApiService) { }
 
@@ -31,6 +37,10 @@ export class PokemonPageComponent implements OnInit {
       (params: any) => {
         this.id = params['id'];
         this.getPokemon();
+        if (localStorage.getItem('trainer_id')) {
+          this.getPokemonFromApi();
+          this.loggedIn = true;
+        }
       });
 
   }
@@ -41,9 +51,13 @@ export class PokemonPageComponent implements OnInit {
     this.pokemon = this.cacheService.get(String(this.id), this.pokemonService.getPokemonById(this.id));
     this.pokemon.subscribe(res => {
       this.pokemonInfo = res;
+      this.pokemonInfo.pokemonId = res.id;
       this.pokemonInfo.img = this.imgString + res.id + '.png';
+      this.pokemonInfo.spriteImg = this.spriteString + res.id + '.png';
       this.cacheService.get(String(this.id + "-info"), this.pokemonService.getPokemonInfo(res.species.url))
-        .finally(() => this.isLoading = false)
+        .finally(() => {
+          this.isLoading = false;
+        })
         .subscribe(response => {
           this.pokemonInfo.description = response.flavor_text_entries.find(function (obj) { return obj.language.name === "en"; }).flavor_text;
           this.pokemonInfo.species = response.genera.find(function (obj) { return obj.language.name === "en"; }).genus;
@@ -55,11 +69,22 @@ export class PokemonPageComponent implements OnInit {
     );
   }
 
+  getPokemonFromApi() {
+    let userId = localStorage.getItem('user_id');
+    this.api.getTrainer(userId)
+      .subscribe(res => {
+        res.pokemons.forEach((p, i) => this.apiPokemon[i] = p.pokemonId);
+        if (this.containsPokemon(Number(this.id))) {
+          this.caught = true;
+        }
+      });
+  }
+
   addPokemon() {
     this.api.addPokemon(this.pokemonInfo)
       .subscribe(res => {
+        this.caught = true;
       });
-    //this.capturePokemon();
   }
 
   capturePokemon() {
@@ -67,5 +92,9 @@ export class PokemonPageComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
       });
+  }
+
+  containsPokemon(id: number): Boolean {
+    return this.apiPokemon.indexOf(id) != -1;
   }
 }

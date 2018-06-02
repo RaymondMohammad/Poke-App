@@ -28,6 +28,18 @@ export class ApiService extends BaseService {
       .catch(this.handleError);
   }
 
+  getPokemonFromTrainer(): Observable<Pokemon[]> {
+    const authToken = localStorage.getItem('access_token');
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `Bearer ${authToken}`);
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(this.baseApi + 'trainer/user/', options)
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
   createTrainer(userId: string, name: string, caught: number = 0): Observable<Trainer> {
     let body = JSON.stringify({ name, caught, userId });
     const headers = new Headers();
@@ -42,15 +54,32 @@ export class ApiService extends BaseService {
   }
 
   addPokemon(pokemon: PokemonInfo) {
-    //let body = JSON.stringify({ name, caught, userId });
-    console.log(pokemon);
+    const trainerId = Number(localStorage.getItem('trainer_id'));
+    const pokemonId: number = pokemon.pokemonId;
+    const spriteImg: string = pokemon.spriteImg;
+    const img: string = pokemon.img;
+    const name: string = pokemon.name;
+    const description: string = pokemon.description;
+    const habitat: string = pokemon.habitat;
+    const weight: number = pokemon.weight;
+    const height: number = pokemon.height;
+    const generation: string = pokemon.generation;
+    const species: string = pokemon.species;
+    let types: any;
+    if (pokemon.types.length == 2) {
+      types = pokemon.types[0].type.name + ',' + pokemon.types[1].type.name;
+    } else {
+      types = pokemon.types[0].type.name;
+    }
+
+    let body = JSON.stringify({ pokemonId, spriteImg, img, name, description, habitat, weight, height, generation, species, types, trainerId });
     const headers = new Headers();
     const authToken = localStorage.getItem('access_token');
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `Bearer ${authToken}`);
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.baseApi + 'trainer', pokemon, options)
+    return this.http.post(this.baseApi + 'pokemon', body, options)
       .map(res => res.json())
       .catch(this.handleError);
   }

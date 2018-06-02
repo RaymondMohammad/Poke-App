@@ -137,14 +137,23 @@ namespace PokeApp.Controllers
         {
             var trainer = context.Trainers.Include(t => t.Pokemons).SingleOrDefault(t => t.TrainerId == id);
             var pokemon = context.Pokemons.Include(p => p.Team).SingleOrDefault(p => p.PokemonId == pokemonId);
-            var team = context.Teams.Include(t => t.Pokemons).SingleOrDefault(t => pokemon.Team.TeamId == t.TeamId);
-            if (trainer == null || pokemon == null || team == null)
+
+            
+            
+            if (trainer == null || pokemon == null)
             {
                 return NotFound();
             }
             else
             {
-                team.Pokemons.Remove(pokemon);
+                if (pokemon.Team != null)
+                {
+                    var team = context.Teams.Include(t => t.Pokemons).SingleOrDefault(t => pokemon.Team.TeamId == t.TeamId);
+                    if (team == null)
+                        return NotFound();
+
+                    team.Pokemons.Remove(pokemon);
+                }
                 trainer.Pokemons.Remove(pokemon);
                 context.SaveChanges();
             }

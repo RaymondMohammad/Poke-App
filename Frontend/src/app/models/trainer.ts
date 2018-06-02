@@ -1,5 +1,5 @@
-import { Pokemon } from '../models/pokemon';
 import { Team } from '../models/team';
+import { PokemonInfo } from './pokemonInfo';
 
 export class Trainer {
     constructor() {
@@ -11,6 +11,6 @@ export class Trainer {
     name: string;
     caught: number;
 
-    pokemon: Pokemon[];
-    team: Team[];
+    pokemons: PokemonInfo[];
+    teams: Team[];
 }

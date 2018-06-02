@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using PokeApp.Data;
 using PokeApp.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Cors;
 
 namespace PokeApp.Controllers
 {
+    [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     public class PokemonController : Controller
     {
@@ -47,11 +49,11 @@ namespace PokeApp.Controllers
         {
             var pokemon = newPokemon;
 
-            if (context.Pokemons.Where(t => t.PokemonId == pokemon.PokemonId).Any())
+            if (context.Pokemons.Where(t => t.PokemonId == pokemon.PokemonId && t.TrainerId == pokemon.TrainerId).Any())
             {
                 return BadRequest();
             }
-
+            context.Trainers.Where(t => t.TrainerId == pokemon.TrainerId).Single().Caught++;
             context.Pokemons.Add(pokemon);
             context.SaveChanges();
             return new OkObjectResult(pokemon);

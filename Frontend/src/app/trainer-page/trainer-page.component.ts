@@ -47,6 +47,7 @@ export class TrainerPageComponent implements OnInit {
     this.api.createTrainer(this.user, this.value)
       .subscribe(res => {
         this.trainer = res;
+        localStorage.setItem('trainer_id', String(res.trainerId));
         this.account = true;
       },
         errors => this.errors = errors

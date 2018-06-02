@@ -3,9 +3,10 @@ export class PokemonInfo {
 
     }
 
-    id: number;
-    sprite: string;
+    pokemonId: number;
+    spriteImg: string;
     img: string;
+    trainerId: number;
     name: string;
     description: string;
     habitat: string;

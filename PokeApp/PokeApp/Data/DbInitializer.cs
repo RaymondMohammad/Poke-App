@@ -26,9 +26,9 @@ namespace PokeApp.Data
             context.SaveChanges();
 
             context.Pokemons.AddRange(
-               new Pokemon { PokemonId = 1, Name = "Bulbasaur", Height = 6, Weight = 4, Image = "img", Description = "desc", Type = "Grass" },
-               new Pokemon { PokemonId = 4, Name = "Charmander", Height = 6, Weight = 4, Image = "img", Description = "desc", Type = "Fire,Dragon" },
-               new Pokemon { PokemonId = 7, Name = "Squirtle", Height = 6, Weight = 4, Image = "img", Description = "desc", Type = "Water" }
+               new Pokemon { PokemonId = 1, TrainerId = 1, Name = "Bulbasaur", Height = 6, Weight = 4, Img = "img", Description = "desc", Types = "Grass", Generation = "gen 1", Habitat = "grassland", Species = "dragon", SpriteImg = "img" },
+               new Pokemon { PokemonId = 4, TrainerId = 1, Name = "Charmander", Height = 6, Weight = 4, Img = "img", Description = "desc", Types = "Fire,Dragon", Generation = "gen 1", Habitat = "grassland", Species = "dragon", SpriteImg = "img" },
+               new Pokemon { PokemonId = 7, TrainerId = 1, Name = "Squirtle", Height = 6, Weight = 4, Img = "img", Description = "desc", Types = "Water", Generation = "gen 1", Habitat = "grassland", Species = "dragon", SpriteImg = "img" }
            );
 
             context.SaveChanges();
