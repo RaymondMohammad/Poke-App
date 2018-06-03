@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Cors;
 
 namespace PokeApp.Controllers
 {
-    //[Authorize("isTrainer")]
+    [Authorize("isTrainer")]
     [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     public class TrainerController : Controller

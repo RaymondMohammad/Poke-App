@@ -87,13 +87,6 @@ export class PokemonPageComponent implements OnInit {
       });
   }
 
-  capturePokemon() {
-    this.api.capturePokemon(this.id)
-      .subscribe(res => {
-        console.log(res);
-      });
-  }
-
   containsPokemon(id: number): Boolean {
     return this.apiPokemon.indexOf(id) != -1;
   }

@@ -7,9 +7,11 @@ using PokeApp.Data;
 using PokeApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PokeApp.Controllers
 {
+    [Authorize("isTrainer")]
     [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     public class PokemonController : Controller

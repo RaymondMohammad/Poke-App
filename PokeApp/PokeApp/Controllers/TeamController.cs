@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PokeApp.Data;
 using PokeApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PokeApp.Controllers
 {
@@ -53,8 +54,8 @@ namespace PokeApp.Controllers
         }
 
         // Add to team
-        [HttpPut("{id}/add/{pokemonId}/{newPokemon?}")]
-        public IActionResult UpdateTeam(int id, int pokemonId, int newPokemon)
+        [HttpPut("{id}/add/{pokemonId}")]
+        public IActionResult UpdateTeam(int id, int pokemonId)
         {
             var team = context.Teams.Include(t => t.Pokemons).SingleOrDefault(t => t.TeamId == id);
             var pokemon = context.Pokemons.SingleOrDefault(p => p.PokemonId == pokemonId && p.Trainer.TrainerId == team.TrainerId);
